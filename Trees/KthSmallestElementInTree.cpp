@@ -1,5 +1,3 @@
-// https://www.interviewbit.com/problems/kth-smallest-element-in-tree/
-
 /**
  * Definition for binary tree
  * struct TreeNode {
@@ -9,31 +7,23 @@
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
-int Solution::kthsmallest(TreeNode* root, int k) {
-    
-    if(root == NULL){
-        return -1;
-    }
-    
-    vector<int> sol;
+// This is O(1) space and also time complexity is O(B) i.e. value of k
+int Solution::kthsmallest(TreeNode* A, int B) {
+    int count = 0;
     stack<TreeNode*> st;
-    TreeNode* curr = root;
-    do{
-        if(curr == NULL){
-            curr = st.top();
-            sol.push_back(curr->val);
-            st.pop();
-            curr = curr->right;
-            if(curr != NULL){
-                st.push(curr);
-                curr = curr->left;
-            }
-        }
-        else{
+    TreeNode* curr = A;
+    
+    while(curr!=NULL || !st.empty()){
+        //st.push(curr);
+        while(curr != NULL){
             st.push(curr);
             curr = curr->left;
         }
-    }while(!st.empty());
-    
-    return sol[k-1];
+
+        curr = st.top();
+        st.pop();
+        count++;
+        if(count == B) return curr->val;
+        curr = curr->right;
+    }
 }
